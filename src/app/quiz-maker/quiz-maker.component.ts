@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {Category, Difficulty, Question} from '../data.models';
-import {Observable} from 'rxjs';
+import {Observable, shareReplay} from 'rxjs';
 import {QuizService} from '../quiz.service';
 import {BehaviorSubject} from 'rxjs';
 import {map} from 'rxjs/operators';
@@ -25,7 +25,7 @@ export class QuizMakerComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.categories$ = this.quizService.getAllCategories();
+    this.categories$ = this.quizService.getAllCategories().pipe(shareReplay(1));
     this.mainCategories$ = this.categories$.pipe(
       map(categories =>
         categories.map(category => category.name.split(':')[0])
