@@ -27,18 +27,14 @@ export class QuizMakerComponent implements OnInit {
   ngOnInit() {
     this.categories$ = this.quizService.getAllCategories();
     this.mainCategories$ = this.categories$.pipe(
-      map(categories => {
-        const uniqueMainCategories: Category[] = [];
-        const seenNames = new Set<string>();
-        for (const category of categories) {
-          const mainCategoryName = category.name.split(':')[0];
-          if (!seenNames.has(mainCategoryName)) {
-            uniqueMainCategories.push({id: category.id, name: mainCategoryName});
-            seenNames.add(mainCategoryName);
-          }
-        }
-        return uniqueMainCategories;
-      })
+      map(categories =>
+        categories.map(category => category.name.split(':')[0])
+          .filter((value, index, self) => self.indexOf(value) === index)
+          .map(mainCategoryName => ({
+            id: categories.find(category => category.name.startsWith(mainCategoryName))?.id || 0,
+            name: mainCategoryName
+          }))
+      )
     );
   }
 
