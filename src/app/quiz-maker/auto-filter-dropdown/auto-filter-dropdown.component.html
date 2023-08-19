@@ -1,0 +1,16 @@
+<div class="dropdown-container">
+  <input type="text"
+         [placeholder]="placeholder"
+         [(ngModel)]="filterText"
+         (focus)="onInputFocus()"
+         (input)="onFilterChange()" />
+  <div class="dropdown-options" *ngIf="isDropdownOpen && filteredOptions.length > 0">
+
+    <div *ngFor="let option of filteredOptions" (click)="onSelectChange(option)">
+      {{ option.label }}
+    </div>
+  </div>
+</div>
+
+
+

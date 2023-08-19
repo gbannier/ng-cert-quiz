@@ -1,29 +1,40 @@
-<ng-container *ngIf="mainCategories$">
+<ng-container *ngIf="categories$">
+
   <div class="row">
-    <div class="col-sm-11">
-      <select #category id="categorySelect" (change)="onMainCategoryChange(category.options[category.selectedIndex].text)">
-        <option>Select category</option>
-        <option *ngFor="let category of mainCategories$ | async">
-          {{category.name}}
-        </option>
-      </select>
-
-      <select *ngIf="showSubCategories" #subCategory id="subCategorySelect" (change)="onSubCategoryChange(subCategory.value)">
-        <option>Select subcategory</option>
-        <option [value]="subCategoryItem.id" *ngFor="let subCategoryItem of subCategories$ | async">
-          {{subCategoryItem.name.split(':')[1]}}
-        </option>
-      </select>
-
-      <select #difficulty id="difficultySelect">
-        <option>Select difficulty</option>
-        <option>Easy</option>
-        <option>Medium</option>
-        <option>Hard</option>
-      </select>
-      <button class="primary" id="createBtn" (click)="createQuiz(difficulty.value)">Create</button>
+    <div class="col-sm-2">
+      <ng-container *ngIf="mainCategories$ | async as mainCategories">
+        <app-auto-filter-dropdown
+          [options]="getCategoriesAsDropdownElement(mainCategories)"
+          (selectionChange)="onMainCategoryChange($event)"
+        [placeholder]="'Select maincategory...'" >
+        </app-auto-filter-dropdown>
+      </ng-container>
     </div>
+      <ng-container  *ngIf="showSubCategories"  >
+          <div  *ngIf="(subCategories$ | async) as subCategories" class="col-sm-2">
+              <app-auto-filter-dropdown
+                      [options]="getCategoriesAsDropdownElement(subCategories)"
+                      [labelModifierFn]="labelModifierFn"
+                      (selectionChange)="onSubCategoryChange($event)"
+                      [placeholder]="'Select subcategory...'" >
+              </app-auto-filter-dropdown>
+          </div>
+      </ng-container>
+
+    <div class="col-sm-2">
+        <app-auto-filter-dropdown
+        [options]="difficultyOptions"
+        (selectionChange)="onDifficultyChange($event)"
+        [placeholder]="'Select difficulty...'" >>
+        </app-auto-filter-dropdown>
+    </div>
+      <div class="col-sm-2">
+          <button class="primary" id="createBtn" (click)="createQuiz()">Create</button>
+
+      </div>
+
   </div>
+
   <div class="row">
     <app-quiz *ngIf="questions$" [questions]="questions$ | async" ></app-quiz>
   </div>
