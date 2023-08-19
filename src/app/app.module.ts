@@ -10,6 +10,7 @@ import { QuizComponent } from './quiz/quiz.component';
 import { QuestionComponent } from './question/question.component';
 import { AnswersComponent } from './answers/answers.component';
 import { AutoFilterDropdownComponent } from './quiz-maker/auto-filter-dropdown/auto-filter-dropdown.component';
+import { HighlightDirective } from './quiz-maker/auto-filter-dropdown/highlight.directive';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { AutoFilterDropdownComponent } from './quiz-maker/auto-filter-dropdown/a
     QuizComponent,
     QuestionComponent,
     AnswersComponent,
-    AutoFilterDropdownComponent
+    AutoFilterDropdownComponent,
+    HighlightDirective
   ],
   imports: [
     BrowserModule,
