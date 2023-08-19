@@ -14,8 +14,8 @@ export class QuizComponent {
   questions: Question[] | null = [];
 
   userAnswers: string[] = [];
-  quizService = inject(QuizService);
-  router = inject(Router);
+  quizService = inject(QuizService); // why??todo
+  router = inject(Router);// why??todo
 
   submit(): void {
     this.quizService.computeScore(this.questions ?? [], this.userAnswers);

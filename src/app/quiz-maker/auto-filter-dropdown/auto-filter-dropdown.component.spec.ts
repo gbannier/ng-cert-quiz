@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { AutoFilterDropdownComponent } from './auto-filter-dropdown.component';
+import {NO_ERRORS_SCHEMA} from "@angular/core";
 
 describe('AutoFilterDropdownComponent', () => {
   let component: AutoFilterDropdownComponent;
@@ -8,7 +9,8 @@ describe('AutoFilterDropdownComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [AutoFilterDropdownComponent]
+      declarations: [AutoFilterDropdownComponent],
+      schemas:[NO_ERRORS_SCHEMA]
     });
     fixture = TestBed.createComponent(AutoFilterDropdownComponent);
     component = fixture.componentInstance;
