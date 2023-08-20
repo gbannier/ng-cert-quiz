@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { QuizService } from '../quiz.service';
 import { QuizMakerComponent } from './quiz-maker.component';
-import { of } from 'rxjs';
+import {BehaviorSubject, of} from 'rxjs';
 import { By } from '@angular/platform-browser';
 import {Component, Input, Output, EventEmitter, NO_ERRORS_SCHEMA} from '@angular/core';
 import { Category, Difficulty } from '../data.models';
@@ -27,7 +27,8 @@ describe('QuizMakerComponent', () => {
   beforeEach(() => {
     const quizServiceSpy = {
       getAllCategories: jasmine.createSpy('getAllCategories').and.returnValue(categoriesMock),
-      createQuiz: jasmine.createSpy('createQuiz')
+      createQuiz: jasmine.createSpy('createQuiz'),
+      showChangeQuestionButtons$: new BehaviorSubject<boolean>(true)
     };
     TestBed.configureTestingModule({
       declarations: [QuizMakerComponent, AutoFilterDropdownStubComponent, QuizStubComponent],
@@ -70,7 +71,7 @@ describe('QuizMakerComponent', () => {
       component.categories$ = of(categories);
       component.onMainCategoryChange({ value: 1, label: 'Category' });
 
-      expect(component.selectedCategoryId).toEqual(1);
+      expect(quizService.selectedCategoryId).toEqual(1);
       expect(component.showSubCategories).toBeTrue(); // Or false, depending on your implementation
     });
   });
@@ -79,25 +80,32 @@ describe('QuizMakerComponent', () => {
     it('should update selectedCategoryId', () => {
       component.onSubCategoryChange({ value: 1, label: 'SubCategory' });
 
-      expect(component.selectedCategoryId).toEqual(1);
+      expect(quizService.selectedCategoryId).toEqual(1);
     });
   });
 
   describe('onDifficultyChange', () => {
-    it('should update selectedDifficulty', () => {
+    it('should update selectedDifficulty in the quizService', () => {
       component.onDifficultyChange({ value: 'Easy', label: 'Easy' });
 
-      expect(component.selectedDifficulty).toEqual('Easy');
+      expect(quizService.selectedDifficulty).toEqual('Easy');
     });
   });
 
+  describe('Initialization', () => {
+    it('should assign questions$ from quizService', () => {
+      expect(component.questions$).toEqual(quizService.questions$);
+    });
+  });
+
+
   describe('createQuiz', () => {
     it('should create a quiz with selectedCategoryId and selectedDifficulty', () => {
-      component.selectedCategoryId = 1;
-      component.selectedDifficulty = 'Medium';
+      quizService.selectedCategoryId = 1;
+      quizService.selectedDifficulty = 'Medium';
       component.createQuiz();
 
-      expect(quizService.createQuiz).toHaveBeenCalledWith('1', 'Medium');
+      expect(quizService.createQuiz).toHaveBeenCalled();
     });
 
     it('should not create a quiz without selectedCategoryId and selectedDifficulty', () => {

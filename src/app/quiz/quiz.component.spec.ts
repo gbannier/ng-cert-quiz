@@ -4,6 +4,7 @@ import { QuizComponent } from './quiz.component';
 import {QuizService} from "../quiz.service";
 import {Router} from "@angular/router";
 import {NO_ERRORS_SCHEMA} from "@angular/core";
+import {HttpClientTestingModule} from "@angular/common/http/testing";
 
 describe('QuizComponent', () => {
   let component: QuizComponent;
@@ -17,6 +18,7 @@ describe('QuizComponent', () => {
 
     TestBed.configureTestingModule({
       declarations: [QuizComponent],
+      imports: [HttpClientTestingModule],
       providers: [
         {provide: QuizService, useValue: mockQuizService},
         {provide: Router, useValue: mockRouter}
