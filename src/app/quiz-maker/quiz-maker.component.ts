@@ -16,7 +16,6 @@ export class QuizMakerComponent implements OnInit {
 
     categories$: Observable<Category[]> | undefined = undefined;
     subCategories$: BehaviorSubject<Category[]> = new BehaviorSubject<Category[]>([]);
-    selectedCategoryId: null | undefined | string | number = null; // todo typing
     showSubCategories = false;
     questions$: Observable<Question[]> | undefined = undefined;
     mainCategories$: Observable<Category[]> = of([]);
@@ -25,13 +24,13 @@ export class QuizMakerComponent implements OnInit {
         {value: 'Easy', label: 'Easy'},
         {value: 'Medium', label: 'Medium'},
         {value: 'Hard', label: 'Hard'}
-    ];
-    selectedDifficulty: Difficulty | undefined = undefined;
+    ]; // todo better service
 
     constructor(private quizService: QuizService, private changeDetectorRef: ChangeDetectorRef) {
     }
 
     ngOnInit() {
+        this.questions$ = this.quizService.questions$
         this.labelModifierFn = (label) => label.split(':')[1]
         this.categories$ = this.quizService.getAllCategories().pipe(shareReplay(1));
         this.mainCategories$ = this.categories$.pipe(
@@ -57,7 +56,7 @@ export class QuizMakerComponent implements OnInit {
             }))
         ).subscribe(({mainCategory, subCategories}) => {
             this.showSubCategories = false
-            this.selectedCategoryId = mainCategory?.id; // todo redundant`
+            this.quizService.selectedCategoryId = mainCategory?.id; // todo redundant`
             this.showSubCategories = subCategories.length > 0;
             this.subCategories$.next(subCategories);
 
@@ -66,16 +65,16 @@ export class QuizMakerComponent implements OnInit {
 
 
     onSubCategoryChange(dropdownOption: DropdownOption) {
-        this.selectedCategoryId = dropdownOption.value;
+        this.quizService.selectedCategoryId = dropdownOption.value;
     }
 
     onDifficultyChange(dropdownOption: DropdownOption) {
-        this.selectedDifficulty = dropdownOption.value as Difficulty;
+        this.quizService.selectedDifficulty = dropdownOption.value as Difficulty;
     }
 
     createQuiz() {
-        if (this.selectedCategoryId && this.selectedDifficulty) {
-            this.questions$ = this.quizService.createQuiz(this.selectedCategoryId.toString(), this.selectedDifficulty); // typing todo
+        if (this.quizService.selectedCategoryId && this.quizService.selectedDifficulty) { // todo redundant
+           this.quizService.createQuiz()
             this.quizService.showChangeQuestionButtons$.next(true);
         }
     }
