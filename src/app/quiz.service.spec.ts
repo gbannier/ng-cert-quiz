@@ -24,7 +24,6 @@ const mockQuestions: ApiQuestion[] = [
         type: "multiple"
     },
 ];
-const mockResults = { results: mockQuestions };
 
 describe('QuizService', () => {
     let service: QuizService;

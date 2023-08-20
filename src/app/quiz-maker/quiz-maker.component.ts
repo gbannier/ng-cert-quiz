@@ -51,18 +51,16 @@ export class QuizMakerComponent implements OnInit {
         this.changeDetectorRef.detectChanges();
         this.categories$?.pipe(
             map(categories => ({
-                mainCategory: categories.find(category => category.name.split(':')[0] === dropdownOption.label), // todo redundant`
+                mainCategory: categories.find(category => category.name.split(':')[0] === dropdownOption.label),
                 subCategories: categories.filter(category => category.name.startsWith(dropdownOption.label + ':'))
             }))
         ).subscribe(({mainCategory, subCategories}) => {
             this.showSubCategories = false
-            this.quizService.selectedCategoryId = mainCategory?.id; // todo redundant`
+            this.quizService.selectedCategoryId = mainCategory?.id;
             this.showSubCategories = subCategories.length > 0;
             this.subCategories$.next(subCategories);
-
         });
     }
-
 
     onSubCategoryChange(dropdownOption: DropdownOption) {
         this.quizService.selectedCategoryId = dropdownOption.value;

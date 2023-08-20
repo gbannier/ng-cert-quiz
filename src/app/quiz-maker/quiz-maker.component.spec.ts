@@ -1,10 +1,11 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { QuizService } from '../quiz.service';
-import { QuizMakerComponent } from './quiz-maker.component';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
+import {QuizService} from '../quiz.service';
+import {QuizMakerComponent} from './quiz-maker.component';
 import {BehaviorSubject, of} from 'rxjs';
-import { By } from '@angular/platform-browser';
-import {Component, Input, Output, EventEmitter, NO_ERRORS_SCHEMA} from '@angular/core';
-import { Category, Difficulty } from '../data.models';
+import {By} from '@angular/platform-browser';
+import {Component, EventEmitter, Input, NO_ERRORS_SCHEMA, Output} from '@angular/core';
+import {Category} from '../data.models';
+
 // Mock child components
 @Component({ selector: 'app-auto-filter-dropdown', template: '' })
 class AutoFilterDropdownStubComponent {

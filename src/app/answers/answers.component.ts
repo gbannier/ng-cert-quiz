@@ -7,7 +7,5 @@ import {Results} from '../data.models';
   styleUrls: ['./answers.component.css']
 })
 export class AnswersComponent {
-   // todo default value
-  @Input()
-  data: Results| undefined = undefined;
+  @Input() data: Results| undefined = undefined;
 }
