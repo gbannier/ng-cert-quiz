@@ -25,12 +25,12 @@ describe('QuestionComponent', () => {
 
   it('should set current selection and emit the answer', () => {
     const answer = 'Sample Answer';
-    spyOn(component.change, 'emit');
+    spyOn(component.changeAnswer, 'emit');
 
     component.buttonClicked(answer);
 
     expect(component.currentSelection).toBe(answer);
-    expect(component.change.emit).toHaveBeenCalledWith(answer);
+    expect(component.changeAnswer.emit).toHaveBeenCalledWith(answer);
   });
 
   it('should return "tertiary" if currentSelection equals answer and userAnswer is not defined', () => {

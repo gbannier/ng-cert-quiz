@@ -11,7 +11,7 @@ import {Router} from '@angular/router';
 export class QuizComponent {
 
   @Input()
-  questions: Question[] | null = [];
+  questions: Question[] | null = []; // why union typing ? todo
 
   userAnswers: string[] = [];
   quizService = inject(QuizService); // why??todo
@@ -22,4 +22,7 @@ export class QuizComponent {
     this.router.navigateByUrl("/result");
   }
 
+  changeQuestion(i: number) {
+    console.log(i, 'indexquestion')
+  }
 }

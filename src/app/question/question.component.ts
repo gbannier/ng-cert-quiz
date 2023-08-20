@@ -8,17 +8,21 @@ import {Question} from '../data.models';
 })
 export class QuestionComponent {
 
-  @Input({required: true})
-  question!: Question;
-  @Input()
-  correctAnswer?: string;
-  @Input()
-  userAnswer?: string;
+  @Input({required: true}) question!: Question;
+  @Input() correctAnswer?: string;
+  @Input() userAnswer?: string;
+  @Output() changeAnswer = new EventEmitter<string>();
+  @Output() changeQuestion = new EventEmitter<boolean>();
+  currentSelection!: string;
 
+  buttonClicked(answer: string): void {
+    this.currentSelection = answer;
+    this.changeAnswer.emit(answer);
+  }
   getButtonClass(answer: string): string {
     if (! this.userAnswer) {
-        if (this.currentSelection == answer)
-          return "tertiary";
+      if (this.currentSelection == answer)
+        return "tertiary";
     } else {
       if (this.userAnswer == this.correctAnswer && this.userAnswer == answer)
         return "tertiary";
@@ -28,13 +32,7 @@ export class QuestionComponent {
     return "primary";
   }
 
-  @Output()
-  change = new EventEmitter<string>();
-
-  currentSelection!: string;
-
-  buttonClicked(answer: string): void {
-    this.currentSelection = answer;
-    this.change.emit(answer);
+  changeQuestionButtonclicked() {
+    this.changeQuestion.emit()
   }
 }
