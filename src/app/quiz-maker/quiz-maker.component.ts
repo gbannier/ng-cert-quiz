@@ -75,7 +75,8 @@ export class QuizMakerComponent implements OnInit {
 
     createQuiz() {
         if (this.selectedCategoryId && this.selectedDifficulty) {
-            this.questions$ = this.quizService.createQuiz(this.selectedCategoryId.toString(), this.selectedDifficulty); // typing todo ls
+            this.questions$ = this.quizService.createQuiz(this.selectedCategoryId.toString(), this.selectedDifficulty); // typing todo
+            this.quizService.showChangeQuestionButtons$.next(true);
         }
     }
 

@@ -6,7 +6,7 @@
           [class]="getButtonClass(answer)"
           [innerHTML]="answer">
   </button>
-  <button
+  <button *ngIf="showChangeQuestionButton$ | async"
           [innerHTML]="'change Question'"
           (click)="changeQuestionButtonclicked()"
   >

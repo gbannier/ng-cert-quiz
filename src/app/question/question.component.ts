@@ -1,12 +1,14 @@
-import {ChangeDetectionStrategy, Component, EventEmitter, Input, Output} from '@angular/core';
+import {ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Question} from '../data.models';
+import {QuizService} from "../quiz.service";
+import {Observable} from "rxjs";
 
 @Component({
   selector: 'app-question',
   templateUrl: './question.component.html',
   styleUrls: ['./question.component.css']
 })
-export class QuestionComponent {
+export class QuestionComponent implements OnInit{
 
   @Input({required: true}) question!: Question;
   @Input() correctAnswer?: string;
@@ -14,6 +16,14 @@ export class QuestionComponent {
   @Output() changeAnswer = new EventEmitter<string>();
   @Output() changeQuestion = new EventEmitter<boolean>();
   currentSelection!: string;
+  showChangeQuestionButton$: Observable<boolean> | undefined= undefined;
+
+  constructor(private quizService: QuizService) {
+  }
+
+  ngOnInit() {
+    this.showChangeQuestionButton$ =this.quizService.showChangeQuestionButtons$;
+  }
 
   buttonClicked(answer: string): void {
     this.currentSelection = answer;

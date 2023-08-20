@@ -2,6 +2,7 @@ import {Component, inject, Input} from '@angular/core';
 import {Question} from '../data.models';
 import {QuizService} from '../quiz.service';
 import {Router} from '@angular/router';
+import {BehaviorSubject} from "rxjs";
 
 @Component({
   selector: 'app-quiz',
@@ -10,8 +11,7 @@ import {Router} from '@angular/router';
 })
 export class QuizComponent {
 
-  @Input()
-  questions: Question[] | null = []; // why union typing ? todo
+  @Input() questions: Question[] | null = []; // why union typing ? todo
 
   userAnswers: string[] = [];
   quizService = inject(QuizService); // why??todo
@@ -23,6 +23,6 @@ export class QuizComponent {
   }
 
   changeQuestion(i: number) {
-    console.log(i, 'indexquestion')
+   this.quizService.changeQuestion(i);
   }
 }
